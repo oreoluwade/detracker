@@ -1,7 +1,10 @@
 import Sequelize from 'sequelize';
+import jwt from 'jsonwebtoken';
 import models from '../models';
 
 const { User } = models;
+
+const secretKey = process.env.SECRET || 'detrackersecret';
 
 export default {
   async createUser(req, res) {
@@ -10,17 +13,19 @@ export default {
         where: { username: req.body.username }
       })
       if (userExists) {
-        return res.status(409).json({ error: 'User already exists' });
+        return res.status(409).json({ message: 'User already exists' });
       }
       const user = await User.create(req.body);
+      const token = jwt.sign({ email: user.email }, secretKey);
       return res.status(201).json({
+        message: 'User creation Successful!',
+        token,
         user: {
           username: user.username,
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
         },
-        message: 'User creation Successful'
       });
     } catch (err) {
       return res.status(500).json({ error: 'Unknown error occured' });
@@ -89,13 +94,13 @@ export default {
       const updatedUser = await user.update(req.body);
 
       return res.status(200).json({
+        message: 'Details updated!',
         updatedUser: {
           username: updatedUser.username,
           email: updatedUser.email,
           firstName: updatedUser.firstName,
           lastName: updatedUser.lastName,
         },
-        message: 'Details updated!'
       });
     } catch (err) {
       if (err instanceof Sequelize.ValidationError) {
