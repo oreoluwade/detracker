@@ -4,7 +4,7 @@ import { UsersController } from './controllers'
 const router = express.Router();
 
 router.route('/user/:id')
-  .get(UsersController.getUser)
+  .get(UsersController.fetchUser)
   .put(UsersController.editUserDetails)
   .delete(UsersController.deleteUser)
 

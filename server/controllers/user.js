@@ -6,17 +6,20 @@ const { User } = models;
 export default {
   async createUser(req, res) {
     try {
+      const userExists = await User.findOne({
+        where: { username: req.body.username }
+      })
+      if (userExists) {
+        return res.status(409).json({ error: 'User already exists' });
+      }
       const user = await User.create(req.body);
       return res.status(201).json({ user, message: 'User creation Successful' });
     } catch (err) {
-      if (err instanceof Sequelize.ValidationError) {
-        return res.status(409).json({ error: 'User already exists' });
-      }
       return res.status(500).json({ error: 'Unknown error occured' });
     }
   },
 
-  async getUser(req, res) {
+  async fetchUser(req, res) {
     try {
       const id = parseInt(req.params.id);
       if (isNaN(id)) {
@@ -29,6 +32,21 @@ export default {
       return res.status(200).json({ user });
     } catch (err) {
       return res.status(500).json({ error: 'An Unknown error occured' });
+    }
+  },
+
+  async fetchAllUsers(req, res) {
+    try {
+      const users = await User.findAll();
+      if (users[0]) {
+        return res.json({ users })
+      }
+      return res.status(404).json({
+        message: 'No users created yet',
+        createNewUser: `<a href='http:localhost:8081/register'>Add new User</a>`
+      });
+    } catch (err) {
+      return res.status(500).json({error: 'An unknown error occured'});
     }
   },
 
@@ -47,24 +65,9 @@ export default {
       return res.status(200).json({ updatedUser, message: 'Details updated!' });
     } catch (err) {
       if (err instanceof Sequelize.ValidationError) {
-        return res.status(409).json({ error: 'Username/email already in use' });
+        return res.status(409).json({ error: 'User already exists' });
       }
       return res.status(500).json({ error: 'An Unknown error occured' });
-    }
-  },
-
-  async fetchAllUsers(req, res) {
-    try {
-      const users = await User.findAll();
-      if (users[0]) {
-        return res.json({ users })
-      }
-      return res.status(404).json({
-        message: 'No users created yet',
-        createNewUser: `<a href='http:localhost:8081/register'>Add new User</a>`
-      });
-    } catch (err) {
-      return res.status(500).json({error: 'An unknown error occured'});
     }
   },
 
