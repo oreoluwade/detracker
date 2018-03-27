@@ -1,12 +1,12 @@
-const express = require('express');
+import express from 'express';
+import { UsersController } from './controllers'
 
 const router = express.Router();
 
-router.route('/')
-  .get((req, res) => {
-    res.json({
-      message: 'Welcome to the start of something beautiful'
-    })
-  })
+router.route('/user/:id')
+  .get(UsersController.getUser)
 
-module.exports = router;
+router.route('/register')
+  .post(UsersController.createUser)
+
+export default router;
