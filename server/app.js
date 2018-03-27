@@ -1,6 +1,6 @@
-const express = require('express');
-const morgan = require('morgan');
-const router = require('./routes');
+import express from 'express';
+import morgan from 'morgan';
+import router from './routes';
 
 // create app object
 const app = express();
@@ -15,4 +15,4 @@ app.use(router);
 // log requests to the console
 app.use(morgan('dev'));
 
-module.exports = app;
+export default app;
