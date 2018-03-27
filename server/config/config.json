@@ -2,7 +2,7 @@
   "development": {
     "use_env_variable": "DEV_DATABASE_URL",
     "dialect": "postgres",
-    "operatorsAliases": false
+    "operatorsAliases": true
   },
   "test": {
     "use_env_variable": "TEST_DATABASE_URL",
