@@ -13,7 +13,15 @@ export default {
         return res.status(409).json({ error: 'User already exists' });
       }
       const user = await User.create(req.body);
-      return res.status(201).json({ user, message: 'User creation Successful' });
+      return res.status(201).json({
+        user: {
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+        message: 'User creation Successful'
+      });
     } catch (err) {
       return res.status(500).json({ error: 'Unknown error occured' });
     }
@@ -29,7 +37,14 @@ export default {
       if (!user) {
         return res.status(404).json({ message: 'No user with the given ID' });
       }
-      return res.status(200).json({ user });
+      return res.status(200).json({
+        user: {
+          username: user.username,
+          email: user.email,
+          firstName: user.firstName,
+          lastName: user.lastName,
+        },
+      });
     } catch (err) {
       return res.status(500).json({ error: 'An Unknown error occured' });
     }
@@ -37,9 +52,20 @@ export default {
 
   async fetchAllUsers(req, res) {
     try {
-      const users = await User.findAll();
+      const users = await User.findAll()
+        .map(user => {
+          return {
+            username: user.username,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email
+          }
+        });
       if (users[0]) {
-        return res.json({ users })
+        return res.json({
+          totalNumberOfUsers: users.length,
+          users
+        })
       }
       return res.status(404).json({
         message: 'No users created yet',
@@ -62,7 +88,15 @@ export default {
       }
       const updatedUser = await user.update(req.body);
 
-      return res.status(200).json({ updatedUser, message: 'Details updated!' });
+      return res.status(200).json({
+        updatedUser: {
+          username: updatedUser.username,
+          email: updatedUser.email,
+          firstName: updatedUser.firstName,
+          lastName: updatedUser.lastName,
+        },
+        message: 'Details updated!'
+      });
     } catch (err) {
       if (err instanceof Sequelize.ValidationError) {
         return res.status(409).json({ error: 'User already exists' });
