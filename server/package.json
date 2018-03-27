@@ -9,13 +9,15 @@
     "bcrypt": "^1.0.3",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
+    "jsonwebtoken": "^8.2.0",
     "morgan": "^1.9.0",
     "pg": "^7.4.1",
     "sequelize": "^4.37.4"
   },
   "scripts": {
     "start": "babel-watch server.js",
-    "migrate": "sequelize db:migrate"
+    "migrate": "sequelize db:migrate",
+    "undo:migrations": "sequelize db:migrate:undo:all"
   },
   "devDependencies": {
     "babel-plugin-transform-runtime": "^6.23.0",

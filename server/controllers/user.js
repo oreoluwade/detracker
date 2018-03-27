@@ -1,7 +1,11 @@
 import Sequelize from 'sequelize';
+import jwt from 'jsonwebtoken';
 import models from '../models';
 
 const { User } = models;
+const { Op } = Sequelize;
+
+const secretKey = process.env.SECRET || 'detrackersecret';
 
 export default {
   async createUser(req, res) {
@@ -10,20 +14,22 @@ export default {
         where: { username: req.body.username }
       })
       if (userExists) {
-        return res.status(409).json({ error: 'User already exists' });
+        return res.status(409).json({ message: 'User already exists' });
       }
       const user = await User.create(req.body);
+      const token = jwt.sign({ username: user.username }, secretKey);
       return res.status(201).json({
+        message: 'User creation Successful!',
+        token,
         user: {
           username: user.username,
           email: user.email,
           firstName: user.firstName,
           lastName: user.lastName,
         },
-        message: 'User creation Successful'
       });
     } catch (err) {
-      return res.status(500).json({ error: 'Unknown error occured' });
+      return res.status(500).json({ error: 'An error occured' });
     }
   },
 
@@ -46,7 +52,7 @@ export default {
         },
       });
     } catch (err) {
-      return res.status(500).json({ error: 'An Unknown error occured' });
+      return res.status(500).json({ error: 'An error occured' });
     }
   },
 
@@ -72,7 +78,7 @@ export default {
         createNewUser: `<a href='http:localhost:8081/register'>Add new User</a>`
       });
     } catch (err) {
-      return res.status(500).json({error: 'An unknown error occured'});
+      return res.status(500).json({error: 'An error occured'});
     }
   },
 
@@ -89,19 +95,19 @@ export default {
       const updatedUser = await user.update(req.body);
 
       return res.status(200).json({
+        message: 'Details updated!',
         updatedUser: {
           username: updatedUser.username,
           email: updatedUser.email,
           firstName: updatedUser.firstName,
           lastName: updatedUser.lastName,
         },
-        message: 'Details updated!'
       });
     } catch (err) {
       if (err instanceof Sequelize.ValidationError) {
         return res.status(409).json({ error: 'User already exists' });
       }
-      return res.status(500).json({ error: 'An Unknown error occured' });
+      return res.status(500).json({ error: 'An error occured' });
     }
   },
 
@@ -119,7 +125,42 @@ export default {
       }
       return res.status(404).json({ message: 'No user with the given ID' });
     } catch (err) {
-      return res.status(500).json({ error: 'An Unknown error occured' });
+      return res.status(500).json({ error: 'An error occured' });
     }
-  }
+  },
+
+  async login(req, res) {
+    const { identifier, password } = req.body;
+    try {
+      const user = await User.findOne({
+        where: {
+          [Op.or]: [
+            { username: identifier },
+            { email: identifier },
+          ],
+        },
+      })
+      if (!user) {
+        return res.status(404).json({ message: 'User does not exist' });
+      }
+      if (!user.validPassword(password)) {
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+      const token = jwt.sign({ username: user.username }, secretKey);
+      return res.status(200).send({
+        message: 'Login Successful! Token expires in one day.',
+        token,
+        user: {
+          username: user.username,
+          email: user.email,
+        },
+      });
+    } catch (err) {
+      return res.status(500).json({ error: 'An error occured' });
+    }
+  },
+
+  logout(req, res) {
+    res.status(200).json({ message: 'Logged out successfully!' });
+  },
 }
