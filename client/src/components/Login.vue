@@ -15,6 +15,7 @@
       placeholder="Password"
     />
     <br>
+    <div v-html="error" class="error" />
     <button @click="login">Login</button>
   </div>
 </template>
@@ -26,16 +27,21 @@ export default {
   data () {
     return {
       identifier: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
     async login () {
-      const response = await AuthService.login({
-        identifier: this.identifier,
-        password: this.password
-      })
-      console.log('login button was clicked', response.data)
+      try {
+        const response = await AuthService.login({
+          identifier: this.identifier,
+          password: this.password
+        })
+        console.log('login button was clicked', response.data)
+      } catch (err) {
+        this.error = err.response.data.message
+      }
     }
   }
 }
@@ -43,5 +49,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .error {
+    color: red;
+  }
 </style>

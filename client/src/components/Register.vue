@@ -36,6 +36,8 @@
       placeholder="Password"
     />
     <br>
+    <div v-html="error" class="error" />
+    <br>
     <button @click="register">Register</button>
   </div>
 </template>
@@ -50,19 +52,24 @@ export default {
       username: '',
       firstName: '',
       lastName: '',
-      password: ''
+      password: '',
+      error: null
     }
   },
   methods: {
     async register () {
-      const response = await AuthService.registerUser({
-        email: this.email,
-        username: this.username,
-        firstName: this.firstName,
-        lastName: this.lastName,
-        password: this.password
-      })
-      console.log('register button was clicked', response.data)
+      try {
+        const response = await AuthService.registerUser({
+          email: this.email,
+          username: this.username,
+          firstName: this.firstName,
+          lastName: this.lastName,
+          password: this.password
+        })
+        console.log('register button was clicked', response.data)
+      } catch (err) {
+        this.error = err.response.data.error
+      }
     }
   }
 }
@@ -70,5 +77,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+  .error {
+    color: red;
+  }
 </style>
