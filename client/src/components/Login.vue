@@ -1,23 +1,33 @@
 <template>
-  <div>
-    <h1>Login</h1>
-    <input
-      type="text"
-      name="identifier"
-      v-model="identifier"
-      placeholder="Username/Email"
-    />
-    <br>
-    <input
-      type="password"
-      name="password"
-      v-model="password"
-      placeholder="Password"
-    />
-    <br>
-    <div v-html="error" class="error" />
-    <button @click="login">Login</button>
-  </div>
+  <v-layout>
+    <v-flex xs6 offset-xs3>
+      <div class="white elevation-2">
+        <v-toolbar flat dense class="teal lighten-3" dark>
+          <v-toolbar-title>Register</v-toolbar-title>
+        </v-toolbar>
+
+          <div class="pl-4 pr-4 pt-2 pb-2">
+            <v-text-field
+              label="Username/Email"
+              v-model="identifier"
+            ></v-text-field>
+            <v-text-field
+              label="Password"
+              v-model="password"
+            ></v-text-field>
+            <br>
+            <span v-html="error" class="red--text" />
+            <br>
+            <v-btn
+              @click="login"
+              class="teal lighten-3">
+              Login
+            </v-btn>
+          </div>
+
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -49,7 +59,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .error {
-    color: red;
-  }
+
 </style>
