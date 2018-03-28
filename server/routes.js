@@ -1,6 +1,6 @@
 import express from 'express';
 import { UsersController } from './controllers';
-import authenticate from './middlewares';
+import authenticate, { validations } from './middlewares';
 
 const {
   fetchAllUsers,
@@ -22,7 +22,7 @@ router.route('/user/:id')
   .delete(deleteUser)
 
 router.route('/register')
-  .post(createUser)
+  .post(validations.register, createUser)
 
 router.route('/users')
   .get(verifyUser, fetchAllUsers);
