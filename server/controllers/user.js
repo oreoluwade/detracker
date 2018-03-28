@@ -1,9 +1,8 @@
-import Sequelize from 'sequelize';
+import Sequelize, { Op } from 'sequelize';
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
 const { User } = models;
-const { Op } = Sequelize;
 
 const secretKey = process.env.SECRET || 'detrackersecret';
 
