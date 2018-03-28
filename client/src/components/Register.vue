@@ -1,45 +1,45 @@
 <template>
-  <div>
-    <h1>Register</h1>
-    <input
-      type="text"
-      name="email"
-      v-model="email"
-      placeholder="email"
-    />
-    <br>
-    <input
-      type="text"
-      name="username"
-      v-model="username"
-      placeholder="Username"
-    />
-    <br>
-    <input
-      type="text"
-      name="firstname"
-      v-model="firstName"
-      placeholder="First Name"
-    />
-    <br>
-    <input
-      type="text"
-      name="lastname"
-      v-model="lastName"
-      placeholder="Last Name"
-    />
-    <br>
-    <input
-      type="password"
-      name="password"
-      v-model="password"
-      placeholder="Password"
-    />
-    <br>
-    <div v-html="error" class="error" />
-    <br>
-    <button @click="register">Register</button>
-  </div>
+  <v-layout>
+    <v-flex xs6 offset-xs3>
+      <div class="white elevation-2">
+        <v-toolbar flat dense class="teal lighten-3" dark>
+          <v-toolbar-title>Register</v-toolbar-title>
+        </v-toolbar>
+
+          <div class="pl-4 pr-4 pt-2 pb-2">
+            <v-text-field
+              label="Email"
+              v-model="email"
+            ></v-text-field>
+            <v-text-field
+              label="Username"
+              v-model="username"
+            ></v-text-field>
+            <v-text-field
+              label="First Name"
+              v-model="firstName"
+            ></v-text-field>
+            <v-text-field
+              label="Last Name"
+              v-model="lastName"
+            ></v-text-field>
+            <v-text-field
+              label="Password"
+              v-model="password"
+            ></v-text-field>
+            <br>
+            <span v-html="error" class="red--text" />
+            <br>
+            <v-btn
+              @click="register"
+              class="teal lighten-3">
+              Register
+            </v-btn>
+          </div>
+
+      </div>
+    </v-flex>
+  </v-layout>
 </template>
 
 <script>
@@ -77,7 +77,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-  .error {
-    color: red;
-  }
+
 </style>
