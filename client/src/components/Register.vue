@@ -62,6 +62,7 @@ export default {
         lastName: this.lastName,
         password: this.password
       })
+      console.log('register button was clicked', response.data)
     }
   }
 }
