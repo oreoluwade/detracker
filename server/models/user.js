@@ -1,5 +1,6 @@
 import bcrypt from 'bcrypt';
 
+
 const UserModel = function (sequelize, DataTypes) {
   const User = sequelize.define('User', {
     username: {
@@ -27,12 +28,6 @@ const UserModel = function (sequelize, DataTypes) {
   }, {
     hooks: {
       beforeCreate(user) {
-        user.hashPassword();
-      },
-      beforeUpdate(user) {
-        user.hashPassword();
-      },
-      beforeSave(user) {
         user.hashPassword();
       },
     },

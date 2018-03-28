@@ -6,6 +6,13 @@ const { User } = models;
 
 const secretKey = process.env.SECRET || 'detrackersecret';
 
+function jwtSignUser (payload) {
+  const ONE_WEEK = 60 * 60 * 24 * 7
+  return jwt.sign(payload, secretKey, {
+    expiresIn: ONE_WEEK
+  })
+}
+
 export default {
   async createUser(req, res) {
     try {
@@ -16,10 +23,9 @@ export default {
         return res.status(409).json({ message: 'User already exists' });
       }
       const user = await User.create(req.body);
-      const token = jwt.sign({ username: user.username }, secretKey);
       return res.status(201).json({
         message: 'User creation Successful!',
-        token,
+        token: jwtSignUser({ username: user.username }),
         user: {
           username: user.username,
           email: user.email,
@@ -140,15 +146,15 @@ export default {
         },
       })
       if (!user) {
-        return res.status(404).json({ message: 'User does not exist' });
+        return res.status(403).json({ message: 'Incorrect Login Information' });
       }
       if (!user.validPassword(password)) {
-        return res.status(401).json({ message: 'Invalid credentials' });
+        console.log('Shall we see?', password)
+        return res.status(403).json({ message: 'Invalid credentials' });
       }
-      const token = jwt.sign({ username: user.username }, secretKey);
-      return res.status(200).send({
-        message: 'Login Successful! Token expires in one day.',
-        token,
+      return res.status(200).json({
+        message: 'Login Successful! Token expires in one week.',
+        token: jwtSignUser({ username: user.username }),
         user: {
           username: user.username,
           email: user.email,
