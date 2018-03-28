@@ -29,6 +29,12 @@ const UserModel = function (sequelize, DataTypes) {
       beforeCreate(user) {
         user.hashPassword();
       },
+      beforeUpdate(user) {
+        user.hashPassword();
+      },
+      beforeSave(user) {
+        user.hashPassword();
+      },
     },
   });
 
