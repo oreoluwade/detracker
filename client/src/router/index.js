@@ -3,7 +3,7 @@ import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
-import Spendings from '@/components/Spendings'
+import Transactions from '@/components/Transactions'
 
 Vue.use(Router)
 
@@ -25,9 +25,9 @@ export default new Router({
       component: Login
     },
     {
-      path: '/today',
-      name: 'today',
-      component: Spendings
+      path: '/transactions',
+      name: 'transactions',
+      component: Transactions
     }
   ]
 })
