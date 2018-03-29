@@ -4,6 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Transactions from '@/components/Transactions'
+import AddTransaction from '@/components/AddTransaction'
 
 Vue.use(Router)
 
@@ -28,6 +29,11 @@ export default new Router({
       path: '/transactions',
       name: 'transactions',
       component: Transactions
+    },
+    {
+      path: '/transactions/create',
+      name: 'transactions-create',
+      component: AddTransaction
     }
   ]
 })

@@ -5,7 +5,7 @@
           <div class="pl-4 pr-4 pt-2 pb-2">
             <form
               name="signup-form"
-              autocomolete="off">
+              autocomplete="off">
               <v-text-field
                 label="Email"
                 v-model="email"
