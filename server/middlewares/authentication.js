@@ -1,10 +1,6 @@
 import jwt from 'jsonwebtoken';
-import models from '../models';
-
-const { User } = models;
 
 const secretKey = process.env.SECRET || 'detrackersecret';
-
 
 export default {
   verifyUser(req, res, next) {

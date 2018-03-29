@@ -1,7 +1,8 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import router from './routes';
+import { userRouter, categoryRouter } from './routes';
+
 
 // create app object
 const app = express();
@@ -11,8 +12,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors())
 
-// Mount the router on the app object
-app.use(router);
+// Mount the routers on the app object
+app.use('/user', userRouter);
+app.use('/category', categoryRouter);
+
 
 // log requests to the console
 app.use(morgan('dev'));

@@ -16,11 +16,16 @@ function jwtSignUser (payload) {
 export default {
   async createUser(req, res) {
     try {
-      const userExists = await User.findOne({
+      const usernameExists = await User.findOne({
         where: { username: req.body.username }
       })
-      if (userExists) {
-        return res.status(409).json({ message: 'User already exists' });
+      const emailExists = await User.findOne({
+        where: { email: req.body.email }
+      })
+      if (usernameExists) {
+        return res.status(409).json({ error: 'Username already in use' });
+      } else if (emailExists) {
+        return res.status(409).json({ error: 'Email already in use' });
       }
       const user = await User.create(req.body);
       return res.status(201).json({
