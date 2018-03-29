@@ -7,26 +7,31 @@
         </v-toolbar>
 
           <div class="pl-4 pr-4 pt-2 pb-2">
-            <v-text-field
-              label="Email"
-              v-model="email"
-            ></v-text-field>
-            <v-text-field
-              label="Username"
-              v-model="username"
-            ></v-text-field>
-            <v-text-field
-              label="First Name"
-              v-model="firstName"
-            ></v-text-field>
-            <v-text-field
-              label="Last Name"
-              v-model="lastName"
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              v-model="password"
-            ></v-text-field>
+            <form
+              name="signup-form"
+              autocomolete="off">
+              <v-text-field
+                label="Email"
+                v-model="email"
+              ></v-text-field>
+              <v-text-field
+                label="Username"
+                v-model="username"
+              ></v-text-field>
+              <v-text-field
+                label="First Name"
+                v-model="firstName"
+              ></v-text-field>
+              <v-text-field
+                label="Last Name"
+                v-model="lastName"
+              ></v-text-field>
+              <v-text-field
+                label="Password"
+                type="password"
+                v-model="password"
+              ></v-text-field>
+            </form>
             <br>
             <span v-html="error" class="red--text" />
             <br>
@@ -66,6 +71,8 @@ export default {
           lastName: this.lastName,
           password: this.password
         })
+        this.$store.dispatch('setToken', response.data.token)
+        this.$store.dispatch('setUser', response.data.user)
         console.log('register button was clicked', response.data)
       } catch (err) {
         this.error = err.response.data.error
