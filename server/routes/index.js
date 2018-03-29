@@ -1,3 +1,3 @@
 export { default as userRouter } from './user';
-export { default as categoryRouter } from './category';
+export { default as transactionRouter } from './transaction';
 

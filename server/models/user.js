@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 
 
 const UserModel = function (sequelize, DataTypes) {
-  const User = sequelize.define('User', {
+  const User = sequelize.define('Users', {
     username: {
       type: DataTypes.STRING,
       allowNull: false,
@@ -35,7 +35,10 @@ const UserModel = function (sequelize, DataTypes) {
 
   // Class method
   User.associate = (models) => {
-    // associations to be defined here
+    User.hasMany(models.Transactions, {
+      onDelete: 'CASCADE',
+      foreignKey: 'userId',
+    });
   };
 
   // Instance methods

@@ -1,7 +1,7 @@
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { userRouter, categoryRouter } from './routes';
+import { userRouter, transactionRouter } from './routes';
 
 
 // create app object
@@ -14,7 +14,7 @@ app.use(cors())
 
 // Mount the routers on the app object
 app.use('/user', userRouter);
-app.use('/category', categoryRouter);
+app.use('/transaction', transactionRouter);
 
 
 // log requests to the console

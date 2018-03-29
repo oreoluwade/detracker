@@ -2,7 +2,7 @@ import Sequelize, { Op } from 'sequelize';
 import jwt from 'jsonwebtoken';
 import models from '../models';
 
-const { User } = models;
+const { Users } = models;
 
 const secretKey = process.env.SECRET || 'detrackersecret';
 
@@ -16,10 +16,10 @@ function jwtSignUser (payload) {
 export default {
   async createUser(req, res) {
     try {
-      const usernameExists = await User.findOne({
+      const usernameExists = await Users.findOne({
         where: { username: req.body.username }
       })
-      const emailExists = await User.findOne({
+      const emailExists = await Users.findOne({
         where: { email: req.body.email }
       })
       if (usernameExists) {
@@ -27,7 +27,7 @@ export default {
       } else if (emailExists) {
         return res.status(409).json({ error: 'Email already in use' });
       }
-      const user = await User.create(req.body);
+      const user = await Users.create(req.body);
       return res.status(201).json({
         message: 'User creation Successful!',
         token: jwtSignUser({ username: user.username }),
@@ -39,6 +39,7 @@ export default {
         },
       });
     } catch (err) {
+      console.log('NEW ERROR', err)
       return res.status(500).json({ error: 'An error occured' });
     }
   },
@@ -49,7 +50,7 @@ export default {
       if (isNaN(id)) {
         return res.status(400).json({ error : 'ID should be a number' })
       }
-      const user = await User.findById(req.params.id);
+      const user = await Users.findById(req.params.id);
       if (!user) {
         return res.status(404).json({ message: 'No user with the given ID' });
       }
@@ -68,7 +69,7 @@ export default {
 
   async fetchAllUsers(req, res) {
     try {
-      const users = await User.findAll()
+      const users = await Users.findAll()
         .map(user => {
           return {
             username: user.username,
@@ -98,7 +99,7 @@ export default {
       if (isNaN(id)) {
         return res.status(400).json({ error : 'ID should be a number' })
       }
-      const user = await User.findById(req.params.id);
+      const user = await Users.findById(req.params.id);
       if (!user) {
         return res.status(404).json({ message: 'No user with the given ID' });
       }
@@ -127,7 +128,7 @@ export default {
       if (isNaN(id)) {
         return res.status(400).json({ error : 'ID should be a number' })
       }
-      const user = await User.destroy({
+      const user = await Users.destroy({
         where: { id },
       });
       if (user === 1) {

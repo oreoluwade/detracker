@@ -1,5 +1,5 @@
 import express from 'express';
-import { UsersController } from '../controllers';
+import { usersControllers } from '../controllers';
 import authenticate, { validations } from '../middlewares';
 
 const {
@@ -9,7 +9,7 @@ const {
   deleteUser,
   createUser,
   login
-} = UsersController;
+} = usersControllers;
 
 const { verifyUser } = authenticate;
 
