@@ -11,10 +11,7 @@ const TransactionModel = function (sequelize, DataTypes) {
     },
     description: {
       type: DataTypes.TEXT,
-      allowNull: true,
-      validate: {
-        notEmpty: true
-      }
+      allowNull: true
     },
     amount: {
       type: DataTypes.FLOAT,

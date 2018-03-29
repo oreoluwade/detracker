@@ -32,6 +32,7 @@ export default {
         message: 'User creation Successful!',
         token: jwtSignUser({ username: user.username }),
         user: {
+          id: user.id,
           username: user.username,
           email: user.email,
           firstName: user.firstName,
@@ -143,7 +144,7 @@ export default {
   async login(req, res) {
     const { identifier, password } = req.body;
     try {
-      const user = await User.findOne({
+      const user = await Users.findOne({
         where: {
           [Op.or]: [
             { username: identifier },
@@ -162,6 +163,7 @@ export default {
         message: 'Login Successful! Token expires in one week.',
         token: jwtSignUser({ username: user.username }),
         user: {
+          id: user.id,
           username: user.username,
           email: user.email,
         },

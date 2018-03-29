@@ -10,7 +10,6 @@ module.exports = {
       title: {
         type: Sequelize.STRING,
         allowNull: false,
-        unique: true,
       },
       description: {
         type: Sequelize.TEXT,
@@ -21,7 +20,6 @@ module.exports = {
       },
       day: {
         type: Sequelize.DATEONLY,
-        unique: true,
         allowNull: false,
       },
       userId: {
