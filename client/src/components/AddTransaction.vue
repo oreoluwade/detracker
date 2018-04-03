@@ -1,7 +1,7 @@
 <template>
   <v-layout>
-    <v-flex xs6 offset-xs3>
-    <panel title="Add New Transaction">
+    <v-flex xs4>
+    <panel title="Transaction Metadata">
       <div class="pl-4 pr-4 pt-2 pb-2">
         <form
           name="transaction-form"
@@ -9,10 +9,6 @@
           <v-text-field
             label="Title"
             v-model="title"
-          ></v-text-field>
-          <v-text-field
-            label="Description (Optional)"
-            v-model="description"
           ></v-text-field>
           <v-text-field
             label="YYYY-MM-DD"
@@ -34,6 +30,15 @@
       </div>
     </panel>
     </v-flex>
+      <v-flex xs8>
+        <panel title="Transaction Description" class="ml-2">
+          <v-text-field
+            label="Description (Optional)"
+            multi-line
+            v-model="description"
+          ></v-text-field>
+        </panel>
+      </v-flex>
   </v-layout>
 </template>
 
@@ -64,6 +69,9 @@ export default {
           amount: this.amount,
           date: this.date,
           userId: this.userId
+        })
+        this.$router.push({
+          name: 'transactions'
         })
         console.log('New Transaction added', response.data)
       } catch (err) {

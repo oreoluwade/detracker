@@ -1,6 +1,11 @@
 <template>
   <v-layout>
     <v-flex xs6 offset-xs3>
+      <!-- <notify
+        v-if="$store.state.userIsLoggedIn"
+        alertType="success"
+        message="Login successful"
+      /> -->
       <panel title="Login">
         <div class="pl-4 pr-4 pt-2 pb-2">
           <form
@@ -34,6 +39,7 @@
 <script>
 import AuthService from '@/services/AuthService'
 import Panel from '@/components/Panel'
+// import Notify from '@/components/Notify'
 export default {
   name: 'Login',
   data () {
@@ -53,6 +59,9 @@ export default {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         console.log('login button was clicked', response.data)
+        this.$router.push({
+          name: 'root'
+        })
       } catch (err) {
         this.error = err.response.data.message
       }
@@ -60,6 +69,7 @@ export default {
   },
   components: {
     Panel
+    // Notify
   }
 }
 </script>

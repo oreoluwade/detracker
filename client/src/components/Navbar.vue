@@ -1,16 +1,18 @@
 <template>
   <v-toolbar fixed class="teal lighten-3">
     <v-toolbar-title class="mr-4">
-      <span @click="navigateTo({ name: 'root'})" class="home">
+      <router-link
+        class="home"
+        :to="{ name: 'root'}">
         DailyExpensesTracker
-      </span>
+      </router-link>
     </v-toolbar-title>
 
     <v-toolbar-items>
       <v-btn
         flat
         dark
-        @click="navigateTo({ name: 'today'})">
+        :to="{ name: 'root'}">
         Check Today's Spending
       </v-btn>
     </v-toolbar-items>
@@ -22,9 +24,7 @@
         v-if="!$store.state.userIsLoggedIn"
         flat
         dark
-        @click="
-        navigateTo({ name: 'login'})"
-      >
+        :to="{ name: 'login'}">
         Login
       </v-btn>
 
@@ -32,8 +32,7 @@
         v-if="!$store.state.userIsLoggedIn"
         flat
         dark
-        @click="
-        navigateTo({ name: 'register'})"
+        :to="{ name: 'register'}"
       >
         Sign Up
       </v-btn>
@@ -55,9 +54,6 @@
 export default {
   name: 'Navbar',
   methods: {
-    navigateTo (route) {
-      this.$router.push(route)
-    },
     logout () {
       this.$store.dispatch('setToken', null)
       this.$store.dispatch('setUser', null)

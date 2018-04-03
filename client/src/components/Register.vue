@@ -70,6 +70,9 @@ export default {
         this.$store.dispatch('setToken', response.data.token)
         this.$store.dispatch('setUser', response.data.user)
         console.log('register button was clicked', response.data)
+        this.$router.push({
+          name: 'root'
+        })
       } catch (err) {
         this.error = err.response.data.error
       }
